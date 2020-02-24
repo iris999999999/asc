@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>organizations</title>
+    </head>
+    <body>
+        <table>
+            <tbody>
+            <tr>
+              <th>Дата</th>
+              <th></th><th></th><th></th><th></th><th></th><th></th><th></th>
+              <th>Проход</th>
+              <th></th><th></th><th></th><th></th><th></th><th></th><th></th>
+              <th>Считыватель</th>
+              <th></th><th></th><th></th><th></th><th></th><th></th><th></th>              
+            </tr>
+            {% for message in messages %}
+                  <tr>
+                    <th>{{ message.date_f }}</th><th></th><th></th><th></th><th></th><th></th><th></th><th></th>
+                    <th>{{ message.time_f }}</th><th></th><th></th><th></th><th></th><th></th><th></th><th></th>
+                    <th>{{ message.readerID }}</th><th></th><th></th><th></th><th></th><th></th><th></th><th>
+                      
+                    </th>
+                  </tr>        
+              {% endfor %}
+             
+            </tbody>
+        </table>
+        
+    </body>
+</html>
+
+
