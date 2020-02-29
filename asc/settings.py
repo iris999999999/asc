@@ -44,8 +44,9 @@ INSTALLED_APPS = [
     'persons_card',
     'organizations',
     'users',
-    'departaments'
-      
+    'departaments',
+    'crispy_forms',
+    'django_extensions',
     
 
 ]
@@ -77,6 +78,8 @@ TEMPLATES = [
         },
     },
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 WSGI_APPLICATION = 'asc.wsgi.application'
 

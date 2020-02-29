@@ -5,6 +5,14 @@
         <title>device message</title>
     </head>
     <body>
+      <!--<form action="{% url 'device_message:save_report' %}" method="get">
+          <input type="submit" class="btn"
+          value="save" name="save_report">
+      </form>-->
+      <form action="{% url 'device_message:hello' %}" method="get">
+          <input type="submit" class="btn"
+          value="save" name="hello">
+      </form>
       {% for index, row in organizations_departaments.iterrows %}
 
           <p><b>{{row.oo_name}} {{'_'}} {{row.dd_name}}</b></p>
@@ -48,6 +56,8 @@
           {% endfor %}
           
       {% endfor %}
+
+      
     </body>
 </html>
 

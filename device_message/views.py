@@ -44,7 +44,8 @@ left join organizations_organizations oo on dd.organizations_id = oo.id order by
     
     df1 = df[['oo_name','dd_name','pp_sur_name','pp_name','pp_patronymic','jj_name','date_f','time_f','readerID']].copy()
     devices_messages = df1.groupby(['oo_name','dd_name','pp_sur_name','pp_name','pp_patronymic','jj_name','date_f','time_f','readerID']).size().reset_index(name='count') 
-
+    
+    #devices_messages.to_csv('9999999.csv')
     #for index, row in persons_jobs.iterrows():
       #s  print(row['oo_name'],row['dd_name'],row['pp_sur_name'],row['pp_name'],row['pp_patronymic'],row['jj_name'])
     
@@ -57,3 +58,16 @@ left join organizations_organizations oo on dd.organizations_id = oo.id order by
     
 
 
+def save_report_from_button(request):
+   
+    if(request.GET.get('save_report')):
+
+        print('rrrrrrrrrrrrrrr')
+    return render(request, 'save_report',{'value':'save report'})
+
+def index(request):
+    return render(request, "index.html")
+
+def return_(request):
+
+    return render(request, "device_message.html")
