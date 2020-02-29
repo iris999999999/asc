@@ -3,10 +3,12 @@ from device_message.models import Device_Message
 from persons_card.models import Persons_Card
 from persons.models import Persons
 import pandas as pd
-#import oursql 
-
 import psycopg2
 import numpy as np
+import reportlab
+import io
+from django.http import FileResponse
+from reportlab.pdfgen import canvas
 
 
 def get_sql():
@@ -48,19 +50,33 @@ left join organizations_organizations oo on dd.organizations_id = oo.id order by
 def messages(request):    
     
     return render(request,'device_message.html',get_sql())
-    
+
+def some_view(request):
+
+    # Create a file-like buffer to receive PDF data.
+    buffer = io.BytesIO()
+
+    # Create the PDF object, using the buffer as its "file."
+    p = canvas.Canvas(buffer)
+
+    # Draw things on the PDF. Here's where the PDF generation happens.
+    # See the ReportLab documentation for the full list of functionality.
+    p.drawString(100, 100, "report saved!")
+
+    # Close the PDF object cleanly, and we're done.
+    p.showPage()
+    p.save()
+
+    # FileResponse sets the Content-Disposition header so that browsers
+    # present the option to save the file.
+    buffer.seek(0)
+
+    return FileResponse(buffer, as_attachment=True, filename='save.pdf')    
 
 
-def save_report_from_button(request):
-   
-    if(request.GET.get('save_report')):
-
-        print('rrrrrrrrrrrrrrr')
-    return render(request, 'save_report',{'value':'save report'})
-
-def index(request):
-    return render(request, "index.html")
+def index(request):   
+    return some_view(request)
+    # return render(request, "index.html")
 
 def return_(request):
-
     return render(request, "device_message.html", context = get_sql())
