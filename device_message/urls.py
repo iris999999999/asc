@@ -5,9 +5,5 @@ app_name = 'device_message'
 
 urlpatterns = [
 	path('', views.messages, name='messages'),
-	#path('save', views.save_report_from_button, name='save_report'),
-	path('index', views.index, name='hello'),
-	path('return_', views.return_, name='return'),
-	
-
+	path('save_from_html', views.save_from_html, name='save'),
 ]

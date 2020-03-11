@@ -1,0 +1,39 @@
+html {
+	padding: 5px 5px 5px 35px;}
+
+h3 {
+	font-size: 15px;}
+
+p.date_time {	
+	font-size: 12px;} 
+
+h4 {
+	font-size: 13px;
+	}
+
+table {
+	border: solid;
+	border-width: thin;
+	width:  400px;
+	height: 80px;}
+
+th.head_table {	
+	border: 1px solid black;} 
+
+th.head_table_reader {	
+	text-align : left;
+	padding: 1px 1px 1px 50px;
+	font-weight:normal;
+	font-size: 12px;
+}
+
+th.cell_table {	
+	font-weight:normal;
+	font-size: 12px;}
+
+
+
+
+
+
+

@@ -1,46 +1,41 @@
 <!DOCTYPE html>
+{% load static %}
 <html>
     <head>
         <meta charset="utf-8" />
         <title>device message</title>
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
     </head>
     <body>
      
-      <form action="{% url 'device_message:hello' %}" method="get">
+      <form action="{% url 'device_message:save' %}" method="get">
           <input type="submit" class="btn"
-          value="save" name="hello">
+          value="save in pdf" name="save">
+          <p class="date_time">{{now}}</p>
       </form>
       {% for index, row in organizations_departaments.iterrows %}
 
-          <p><b>{{row.oo_name}} {{'_'}} {{row.dd_name}}</b></p>
+          <h3>{{row.oo_name}} {{'_'}} {{row.dd_name}}</h3>
           
           {% for index1, row1 in persons_jobs.iterrows  %}
               {% if row.oo_name == row1.oo_name and row.dd_name == row1.dd_name%}
-                 <p></p>
-                 {{row1.pp_sur_name}} {{' '}} {{row1.pp_name}} {{' '}}  {{row1.pp_patronymic}}  {{' '}} {{row1.jj_name}}
-
-
+                 <h4>
+                 {{'----'}} {{row1.pp_sur_name}} {{' '}} {{row1.pp_name}} {{' '}}  {{row1.pp_patronymic}}  {{', '}} {{row1.jj_name}}</h4>
                   <table>
                       <tbody>  
                       <tr>
-                        <th><small>Дата</small></th>
-                        <th></th><th></th><th></th><th></th><th></th><th></th><th></th>
-                        <th><small>Проход</small></th>
-                        <th></th><th></th><th></th><th></th><th></th><th></th><th></th>
-                        <th><small>Считыватель</small></th>
-                        <th></th><th></th><th></th><th></th><th></th><th></th><th></th>              
+                        <th class="head_table"><small>Дата</small></th>
+                        <th class="head_table"><small>Проход</small></th>
+                        <th class="head_table"><small>Считыватель</small></th>
                       </tr>
 
                       {% for index2, row2 in devices_messages.iterrows %}
                           {% if row.oo_name == row2.oo_name and row.dd_name == row2.dd_name and row1.pp_sur_name == row2.pp_sur_name and row1.pp_name == row2.pp_name and row1.pp_patronymic == row2.pp_patronymic and row1.jj_name == row2.jj_name%}
                             <tr>
-                              <th><small><span style="font-weight:normal;">{{ row2.date_f }}</small></span></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th>
-                              <th><small><span style="font-weight:normal;">{{ row2.time_f }}</small></span></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th>
-                              <th><div align ="left"><small><span style="font-weight:normal;">{{ row2.readerID }}</small></span></small></div></th><th></th><th></th><th></th><th></th><th></th><th></th><th>
-                                
-                              </th>
-                            </tr> 
-                            
+                              <th class="cell_table">{{ row2.date_f }}</th>
+                              <th class="cell_table">{{ row2.time_f }}</th>
+                              <th class="head_table_reader">{{ row2.readerID }}</th>            
+                            </tr>                
                               
                             
                           {% endif %}        
