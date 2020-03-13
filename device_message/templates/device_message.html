@@ -7,12 +7,21 @@
         <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
     </head>
     <body>
-     
-      <form action="{% url 'device_message:save' %}" method="get">
-          <input type="submit" class="btn"
-          value="save in pdf" name="save">
-          <p class="date_time">{{now}}</p>
-      </form>
+      <p class="lb"> {{form_date}} </p>
+      <p class="lb1"> {{form_organization}} </p>
+
+      <p class="title1">Система контроля и управления доступом ASC32</p>
+      <p class="title1">{{now}}</p>      
+
+      <form action="{% url 'device_message:save' %}" method="get">        
+         <input  type="submit" class="btn"
+         value="save in pdf" name="save">          
+      </form> 
+      
+      <p class="title">Отчет по контролю времени входа/выхода персонала на предприятии.</p>
+      
+
+
       {% for index, row in organizations_departaments.iterrows %}
 
           <h3>{{row.oo_name}} {{'_'}} {{row.dd_name}}</h3>

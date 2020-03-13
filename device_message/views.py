@@ -2,19 +2,22 @@ from django.shortcuts import render, redirect
 from device_message.models import Device_Message
 from persons_card.models import Persons_Card
 from persons.models import Persons
+
+from .forms import DateForm
+from .forms import Organization_Form
+
+
+
+from django.http import FileResponse
+from django.http import HttpResponse
+import requests as req
+
 import pandas as pd
 import psycopg2
-import numpy as np
-import reportlab
-import io
-from django.http import FileResponse
-from reportlab.pdfgen import canvas
-import datetime
-import csv
 
-from django.http import HttpResponse
+import datetime
+
 import bs4
-import requests as req
 from fpdf import FPDF
 
 
@@ -48,11 +51,14 @@ left join organizations_organizations oo on dd.organizations_id = oo.id order by
     devices_messages = df1.groupby(['oo_name','dd_name','pp_sur_name','pp_name','pp_patronymic','jj_name','date_f','time_f','readerID']).size().reset_index(name='count') 
     
     now = datetime.datetime.now()
-    #print(now.strftime('%d-%m-%Y %H:%M'))
+    dateForm = DateForm()
+    
     
     return { "organizations_departaments":organizations_departaments,
              "persons_jobs":persons_jobs,
              "devices_messages":devices_messages,
+             "form_date":dateForm,
+             "form_organization":Organization_Form,
              "now":now.strftime('%d-%m-%Y %H:%M')                                                
             }   
 
@@ -105,36 +111,14 @@ def save_from_html(request):
                 data1 = []
                 data.append(['Дата','Проход','Считыватель'])
                 k = 1
-                #print(sub_heading1.text)
+                
                 for sub_heading2 in soup.find_all('tr'):
                     if sub_heading2.find_previous('h4').text == sub_heading1.text:
                         if  (sub_heading2.text.strip() !=""):
                             if (sub_heading2.text.find("Дата") == -1) and (sub_heading2.text.find("Проход") == -1) and (sub_heading2.text.find("Считыватель") == -1):
-                                #print(sub_heading2.text.strip()) 
-                                #if k ==3:
-                                #    data1.append(sub_heading2.text.strip())                                     
-                                #    data.append(data1)
-
-                                 #   data1 = []
-                                 #   k=1
-                                #else:
-                                    
-                                    #data1.append(sub_heading2.text.strip())
-                                    #print(sub_heading2.text.strip().split('\n'))
-                                    data.append(sub_heading2.text.strip().split('\n'))
-                                   # k+=1 
-
-
-                #data.append(data1)
-                
-
-                for row in data:
-                    for item in row:
-                        pass
-                        #print(item)
-
+                                data.append(sub_heading2.text.strip().split('\n'))
+          
                 pdf = table_pdf(data,pdf) 
-
 
     pdf.output("device_message.pdf")
 

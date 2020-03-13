@@ -4,8 +4,38 @@ html {
 h3 {
 	font-size: 15px;}
 
-p.date_time {	
-	font-size: 12px;} 
+.btn {
+	position: absolute;
+	
+	left: 960px;
+	
+     }
+
+.lb {
+	position: absolute;
+	top: 1px;
+	left: 10px;
+	
+     }
+
+.lb1 {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	
+     }
+
+p.title1 {	
+	font-size: 11px;
+	text-align : right;
+         } 
+
+p.title {	
+	font-size: 16px;
+	text-align : left;
+	font-weight: bold;
+
+         } 
 
 h4 {
 	font-size: 13px;
