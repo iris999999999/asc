@@ -6,6 +6,7 @@ h3 {
 
 .btn {
 	position: absolute;
+	top: 65px ; 
 	
 	left: 960px;
 	
@@ -20,7 +21,7 @@ h3 {
 
 .lb1 {
 	position: absolute;
-	top: 10px;
+	top: 35px;
 	left: 10px;
 	
      }
@@ -28,6 +29,8 @@ h3 {
 p.title1 {	
 	font-size: 11px;
 	text-align : right;
+	top: 5px;
+
          } 
 
 p.title {	
@@ -45,7 +48,10 @@ table {
 	border: solid;
 	border-width: thin;
 	width:  400px;
-	height: 80px;}
+	height: 80px;
+
+
+}
 
 th.head_table {	
 	border: 1px solid black;} 
@@ -59,9 +65,22 @@ th.head_table_reader {
 
 th.cell_table {	
 	font-weight:normal;
-	font-size: 12px;}
+	font-size: 12px;
+}
 
-
+p.list_organization {
+    
+	font-weight:normal;
+	font-size: 12px;
+	top: 5px;
+	
+}
+p.date {
+    position: absolute;	
+	font-weight:normal;
+	font-size: 12px;
+	top: 5px;
+}
 
 
 

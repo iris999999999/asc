@@ -52,7 +52,8 @@ left join organizations_organizations oo on dd.organizations_id = oo.id order by
     
     now = datetime.datetime.now()
     dateForm = DateForm()
-    
+
+
     
     return { "organizations_departaments":organizations_departaments,
              "persons_jobs":persons_jobs,
@@ -80,13 +81,24 @@ def table_pdf(data,pdf,spacing=1):
 
     return pdf
 
+
+def refreshPage(request):
+
+   
+    form = DateForm(request.GET)
+    #print(form.cleaned_data['date1'])
+    print(form)
+    
+    return render(request, "device_message.html", context = get_sql())
+    
 def save_from_html(request): 
     
     resp = req.get("http://127.0.0.1:8000/") 
     soup = bs4.BeautifulSoup(resp.text, 'lxml')
  
     response = HttpResponse(content_type='pdf')
-    response['Content-Disposition'] = 'attachment; filename=save.pdf'
+    response['Content-Disposition'] = 'attachment'
+    #filename=/home/irina/Documents/python_projects/asc/device_message.pdf
 
     pdf = FPDF()
     pdf.add_page()
@@ -113,11 +125,15 @@ def save_from_html(request):
                 k = 1
                 
                 for sub_heading2 in soup.find_all('tr'):
-                    if sub_heading2.find_previous('h4').text == sub_heading1.text:
-                        if  (sub_heading2.text.strip() !=""):
-                            if (sub_heading2.text.find("Дата") == -1) and (sub_heading2.text.find("Проход") == -1) and (sub_heading2.text.find("Считыватель") == -1):
-                                data.append(sub_heading2.text.strip().split('\n'))
-          
+                    
+                    if sub_heading2.find_previous('h4') != None:
+                        if sub_heading2.find_previous('h4').text == sub_heading1.text:
+                            if  (sub_heading2.text.strip() !=""):
+                                if (sub_heading2.text.find("Дата") == -1) and (sub_heading2.text.find("Проход") == -1) and (sub_heading2.text.find("Считыватель") == -1):
+                                    data.append(sub_heading2.text.strip().split('\n'))
+                                            
+
+                
                 pdf = table_pdf(data,pdf) 
 
     pdf.output("device_message.pdf")

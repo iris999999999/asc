@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
+
 <html>
     <head>
         <meta charset="utf-8" />
@@ -7,19 +8,50 @@
         <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
     </head>
     <body>
-      <p class="lb"> {{form_date}} </p>
-      <p class="lb1"> {{form_organization}} </p>
+      
+        <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 
-      <p class="title1">Система контроля и управления доступом ASC32</p>
-      <p class="title1">{{now}}</p>      
+  <!-- XDSoft DateTimePicker -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+</head>
+<body>
+
+ <p class="title1">Система контроля и управления доступом ASC32</p>
+ <p class="title1">{{now}}</p> 
+
+<p class="date">{{form_date}} </p> 
+<p class="list_organization"> {{form_organization}} </p>
+ 
+  <form method="GET">
+      {% csrf_token %} 
+      {{form}}   
+        
+  </form> 
+
+<form action="{% url 'device_message:refresh_page' %}" method="GET">        
+         <input  type="submit" class="btn1"
+                 value="refresh page" name="refresh_page">          
+</form>  
+
+  <script >
+  $(function () {
+    $("#id_date1").datetimepicker();
+    $("#id_date2").datetimepicker();
+  });
+ </script>
+
+  
+
+      <p class="lb1">  </p>           
 
       <form action="{% url 'device_message:save' %}" method="get">        
          <input  type="submit" class="btn"
          value="save in pdf" name="save">          
       </form> 
       
-      <p class="title">Отчет по контролю времени входа/выхода персонала на предприятии.</p>
-      
+      <p class="title">Отчет по контролю времени входа/выхода персонала на предприятии.</p>  
 
 
       {% for index, row in organizations_departaments.iterrows %}
@@ -44,21 +76,16 @@
                               <th class="cell_table">{{ row2.date_f }}</th>
                               <th class="cell_table">{{ row2.time_f }}</th>
                               <th class="head_table_reader">{{ row2.readerID }}</th>            
-                            </tr>                
-                              
+                            </tr>                        
                             
                           {% endif %}        
-                        {% endfor %}
-                        
+                        {% endfor %}      
                        
                       </tbody>
                   </table>
               {% endif %}
-          {% endfor %}
-          
-      {% endfor %}
-
-      
+          {% endfor %}          
+      {% endfor %}      
     </body>
 </html>
 
