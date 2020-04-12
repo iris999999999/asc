@@ -6,6 +6,7 @@
         <meta charset="utf-8" />
         <title>device message</title>
         <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+        
     </head>
     <body>
       
@@ -30,9 +31,9 @@
         
   </form> 
 
-<form action="{% url 'device_message:refresh_page' %}" method="GET">        
+<form action="{% url 'device_message:PageBootstrap' %}" method="GET">        
          <input  type="submit" class="btn1"
-                 value="refresh page" name="refresh_page">          
+                 value="Page Bootstrap" name="PageBootstrap">          
 </form>  
 
   <script >

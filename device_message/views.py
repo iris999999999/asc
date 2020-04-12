@@ -6,8 +6,6 @@ from persons.models import Persons
 from .forms import DateForm
 from .forms import Organization_Form
 
-
-
 from django.http import FileResponse
 from django.http import HttpResponse
 import requests as req
@@ -21,28 +19,44 @@ import bs4
 from fpdf import FPDF
 
 
-
-def get_sql():
-    sql = """
-select dmdm.id, pp."sur_name" as pp_sur_name,pp."name" as pp_name ,pp."patronymic" as pp_patronymic,
-jj."name" as jj_name, dd."name" as dd_name,oo."name" as oo_name, date_f,time_f, 
-"readerID"
-from device_message_device_message dmdm 
-left join persons_card_persons_card pc on dmdm.persons_card_id = pc.id
-left join persons_persons pp on pc.persons_id = pp.id
-left join jobs_jobs jj on pp.jobs_id = jj.id
-left join departaments_departaments dd on jj.departaments_id = dd.id
-left join organizations_organizations oo on dd.organizations_id = oo.id order by oo."name"
-    """
+def get_sql(form_organization):
    
+
+       
+    sql = """
+    select dmdm.id, pp."sur_name" as pp_sur_name,pp."name" as pp_name ,pp."patronymic" as pp_patronymic,
+    jj."name" as jj_name, dd."name" as dd_name,oo."name" as oo_name, oo."id" as oo_id, date_f,time_f, 
+    "readerID"
+    from device_message_device_message dmdm 
+    left join persons_card_persons_card pc on dmdm.persons_card_id = pc.id
+    left join persons_persons pp on pc.persons_id = pp.id
+    left join jobs_jobs jj on pp.jobs_id = jj.id
+    left join departaments_departaments dd on jj.departaments_id = dd.id
+    left join organizations_organizations oo on dd.organizations_id = oo.id order by oo."name"
+        """
+    
+
     conn_string = "host='localhost' dbname='ascdb' user='ascadmin' password='i'" 
     conn = psycopg2.connect(conn_string) 
     #frame_query принимает результат sql запроса, а вовзращает DataFrame 
     df  = pd.read_sql(sql, conn)
-    df.to_csv('123.csv')
+    df.to_csv('123.csv')      
+
+
+    df1 = df[['oo_name','dd_name','oo_id']].copy()
+
+    id_organization = 1
+    if int(form_organization) == 2:
+        id_organization = 3
+    elif int(form_organization) == 3:
+        id_organization = 9
+
+    if  id_organization == 1:
+        organizations_departaments = df1.groupby(['oo_name','dd_name','oo_id']).size().reset_index(name='count')
+    else:
+        organizations_departaments = df1.groupby(['oo_name','dd_name','oo_id']).size().reset_index(name='count').query('oo_id == @id_organization')
     
-    df1 = df[['oo_name','dd_name']].copy()
-    organizations_departaments = df1.groupby(['oo_name','dd_name']).size().reset_index(name='count') 
+    
     
     df1 = df[['oo_name','dd_name','pp_sur_name','pp_name','pp_patronymic','jj_name']].copy()
     persons_jobs = df1.groupby(['oo_name','dd_name','pp_sur_name','pp_name','pp_patronymic','jj_name']).size().reset_index(name='count') 
@@ -66,10 +80,9 @@ left join organizations_organizations oo on dd.organizations_id = oo.id order by
 
 def messages(request):    
     
-    return render(request,'device_message.html',get_sql())
+    return render(request,'device_message.html',get_sql(1))
 
-def table_pdf(data,pdf,spacing=1):
-   
+def table_pdf(data,pdf,spacing=1):   
  
     col_width = pdf.w / 4.5
     row_height = pdf.font_size
@@ -81,16 +94,28 @@ def table_pdf(data,pdf,spacing=1):
 
     return pdf
 
-
-def refreshPage(request):
-
-   
+def refreshPage(request):   
     form = DateForm(request.GET)
-    #print(form.cleaned_data['date1'])
-    print(form)
-    
-    return render(request, "device_message.html", context = get_sql())
-    
+    return render(request, "device_message.html", context = get_sql(1))
+
+def PageBootstrap(request): 
+    base_context = {"new_post": Organization_Form()}
+
+    if request.method == "GET":
+        return render(request, "device_message_b.html", context = get_sql(1))
+
+    elif request.method == "POST":
+        form = Organization_Form(request.POST)
+        form_organization_=""
+        #import pdb; pdb.set_trace()
+        if form.is_valid():
+          form_organization_= form.cleaned_data.get("organization_list")
+          
+        return render(request, "device_message_b.html", context = get_sql(form_organization_))
+    else:
+        return HttpResponseNotAllowed()
+
+
 def save_from_html(request): 
     
     resp = req.get("http://127.0.0.1:8000/") 

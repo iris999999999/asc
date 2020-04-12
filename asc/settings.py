@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'departaments',
     'crispy_forms',
     'django_extensions',
-    
+    'bootstrap4', 
 
 ]
 
