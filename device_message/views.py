@@ -65,8 +65,7 @@ def get_sql(form_organization):
     devices_messages = df1.groupby(['oo_name','dd_name','pp_sur_name','pp_name','pp_patronymic','jj_name','date_f','time_f','readerID']).size().reset_index(name='count') 
     
     now = datetime.datetime.now()
-    #dateForm = DateForm()
-    
+        
     return { "organizations_departaments":organizations_departaments,
              "persons_jobs":persons_jobs,
              "devices_messages":devices_messages,
@@ -102,11 +101,20 @@ def PageBootstrap(request):
         return render(request, "device_message_b.html", context = get_sql(1))
 
     elif request.method == "POST":
-        form = Organization_Form(request.POST)
+        form  = Organization_Form(request.POST)
+        formD = DateForm(request.POST)
         form_organization_=""
         #import pdb; pdb.set_trace()
         if form.is_valid():
-          form_organization_= form.cleaned_data.get("organization_list")    
+          form_organization_= form.cleaned_data.get("organization_list") 
+          
+        if formD.is_valid():
+          
+          date1_= formD.cleaned_data.get("date1") 
+          date2_= formD.cleaned_data.get("date2") 
+          print("9999999999999999999999")
+          print(date1_)  
+          print(date2_) 
 
         return render(request, "device_message_b.html", context = get_sql(form_organization_))
     else:
