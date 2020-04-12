@@ -19,8 +19,7 @@ import bs4
 from fpdf import FPDF
 
 
-def get_sql(form_organization):
-   
+def get_sql(form_organization):   
 
        
     sql = """
@@ -44,7 +43,8 @@ def get_sql(form_organization):
 
 
     df1 = df[['oo_name','dd_name','oo_id']].copy()
-
+    #print("999999999999999999999999999999999999999999999999999")
+    #print(form_organization)
     id_organization = 1
     if int(form_organization) == 2:
         id_organization = 3
@@ -65,14 +65,12 @@ def get_sql(form_organization):
     devices_messages = df1.groupby(['oo_name','dd_name','pp_sur_name','pp_name','pp_patronymic','jj_name','date_f','time_f','readerID']).size().reset_index(name='count') 
     
     now = datetime.datetime.now()
-    dateForm = DateForm()
-
-
+    #dateForm = DateForm()
     
     return { "organizations_departaments":organizations_departaments,
              "persons_jobs":persons_jobs,
              "devices_messages":devices_messages,
-             "form_date":dateForm,
+             "form_date":DateForm,
              "form_organization":Organization_Form,
              "now":now.strftime('%d-%m-%Y %H:%M')                                                
             }   
@@ -99,8 +97,7 @@ def refreshPage(request):
     return render(request, "device_message.html", context = get_sql(1))
 
 def PageBootstrap(request): 
-    base_context = {"new_post": Organization_Form()}
-
+    
     if request.method == "GET":
         return render(request, "device_message_b.html", context = get_sql(1))
 
@@ -109,8 +106,8 @@ def PageBootstrap(request):
         form_organization_=""
         #import pdb; pdb.set_trace()
         if form.is_valid():
-          form_organization_= form.cleaned_data.get("organization_list")
-          
+          form_organization_= form.cleaned_data.get("organization_list")    
+
         return render(request, "device_message_b.html", context = get_sql(form_organization_))
     else:
         return HttpResponseNotAllowed()

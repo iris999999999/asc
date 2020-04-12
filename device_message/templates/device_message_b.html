@@ -7,55 +7,32 @@
 {% endblock %}
 
 {% block bootstrap4_content %}
-<!-- Bootstrap 4 -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-
-    <!-- Font Awesome -->
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-
-    <!-- Moment.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js" integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="anonymous"></script>
-
-    <!-- Tempus Dominus Bootstrap 4 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" integrity="sha256-XPTBwC3SBoWHSmKasAk01c08M6sIA5gF5+sRxqak2Qs=" crossorigin="anonymous" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js" integrity="sha256-z0oKYg6xiLq3yJGsp/LsY9XykbweQlHl42jHv2XTBz4=" crossorigin="anonymous"></script>   
+<!-- Bootstrap 4 -->    
   
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+    <!-- XDSoft DateTimePicker -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+
   <nav class="navbar navbar-light" style="background-color: #CDB5CD;"> 
     <form class="form-inline" action="{% url 'device_message:PageBootstrap' %}"   method="POST">   
       {% csrf_token %} 
-      {{form_organization}}
+      <div style="margin-right: 10px;">{{form_organization}}</div>
+      {{form_date}}
 
- <div class="btn-group"> 
-         
-    <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-      <input type="text" style="margin-left: 30px;" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>
-      <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
-        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-      </div>
-    </div>
-
-    <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
-      <input type="text" style="margin-left: 10px;" class="form-control datetimepicker-input" data-target="#datetimepicker2"/>
-      <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
-        <div 
-           class="input-group-text"><i class="fa fa-calendar"></i>
-        </div>
-      </div>
-    </div>
-  </div>   
-
-     <input  class="btn btn-sm align-middle btn-outline-secondary" style="margin-left: 70px;" type="submit" value="сформировать" name="PageBootstrap"> 
+  <input  class="btn btn-sm align-middle btn-outline-secondary" style="margin-left: 70px;" type="submit" value="сформировать" name="PageBootstrap"> 
 
     </form>
-    <script>
+      <script >
         $(function () {
-        $("#datetimepicker1").datetimepicker();
-        $("#datetimepicker2").datetimepicker();
-         });
-    </script>
+          $("#id_date1").datetimepicker();
+          $("#id_date2").datetimepicker();
+        });
+      </script> 
+
+
     <form class="form-inline" action="{% url 'device_message:save' %}"   method="get"> 
         <input  class="btn btn-sm align-middle btn-outline-secondary" type="submit" value="pdf" name="save">  
         <a class="nav-link" href="/refresh_page">"-->"</a>        
@@ -64,56 +41,55 @@
   </nav>
 
  <!DOCTYPE html>
-{% load static %}
-<html>
-  <body>
-    
-    <div class="mx-auto" style = "text-align : right;font-size: 12px;"><h10>Система контроля и управления доступом ASC32</h10></div> 
-    <div class="mx-auto" style = "text-align : right;font-size: 12px;"><h10>{{now}}</h10></div> 
- 
-    <div class="mx-auto" style="width: 800px;padding: 10px;"><h5><strong>Отчет по контролю времени входа/выхода персонала на предприятии.</strong></h5></div>  
+  <html>
+    <body>
       
-      {% for index, row in organizations_departaments.iterrows %}
+      <div class="mx-auto" style = "text-align : right;font-size: 12px;"><h10>Система контроля и управления доступом ASC32</h10></div> 
+      <div class="mx-auto" style = "text-align : right;font-size: 12px;"><h10>{{now}}</h10></div> 
+   
+      <div class="mx-auto" style="width: 800px;padding: 10px;"><h5><strong>Отчет по контролю времени входа/выхода персонала на предприятии.</strong></h5></div>  
+        
+        {% for index, row in organizations_departaments.iterrows %}
 
-          <div class="mx-auto" style="width: 700px; color:  #8B658B;text-align : center;margin-top: 20px;"><h6><strong>{{row.oo_name}} {{'_'}} {{row.dd_name}}</strong></h6></div>
-          
-          {% for index1, row1 in persons_jobs.iterrows  %}
-              {% if row.oo_name == row1.oo_name and row.dd_name == row1.dd_name%}
-                 <div class="mx-auto"  style="width: 450px;margin-top: 20px;"><h9>
-                  {{'----'}} {{row1.pp_sur_name}} {{' '}} {{row1.pp_name}} {{' '}}  {{row1.pp_patronymic}}  {{', '}} {{row1.jj_name}}</h9></div>
-                  
-                  <div class="col-md-6" style="left: 300px;" >
-                  <table class="table-hover" style = "width: 800px;border: solid;border-width: thin;width:  400px;height: 80px;left: 10px;padding: 10px;">
-                      <thead style="background-color: #CDB5CD">  
-                        <tr >
-                          <th style = "text-align : center;font-size: 14px;">Дата</th>
-                          <th style = "text-align : center;font-size: 14px;">Проход</th>
-                          <th style = "text-align : center;font-size: 14px;">Считыватель</th>
-                        </tr>
-                      </thead>                     
-                      <tbody> 
+            <div class="mx-auto" style="width: 700px; color:  #8B658B;text-align : center;margin-top: 20px;"><h6><strong>{{row.oo_name}} {{'_'}} {{row.dd_name}}</strong></h6></div>
+            
+            {% for index1, row1 in persons_jobs.iterrows  %}
+                {% if row.oo_name == row1.oo_name and row.dd_name == row1.dd_name%}
+                   <div class="mx-auto"  style="width: 450px;margin-top: 20px;"><h9>
+                    {{'----'}} {{row1.pp_sur_name}} {{' '}} {{row1.pp_name}} {{' '}}  {{row1.pp_patronymic}}  {{', '}} {{row1.jj_name}}</h9></div>
+                    
+                    <div class="col-md-6" style="left: 300px;" >
+                    <table class="table-hover" style = "width: 800px;border: solid;border-width: thin;width:  400px;height: 80px;left: 10px;padding: 10px;">
+                        <thead style="background-color: #CDB5CD">  
+                          <tr >
+                            <th style = "text-align : center;font-size: 14px;">Дата</th>
+                            <th style = "text-align : center;font-size: 14px;">Проход</th>
+                            <th style = "text-align : center;font-size: 14px;">Считыватель</th>
+                          </tr>
+                        </thead>                     
+                        <tbody> 
 
-                      {% for index2, row2 in devices_messages.iterrows %}
-                          {% if row.oo_name == row2.oo_name and row.dd_name == row2.dd_name and row1.pp_sur_name == row2.pp_sur_name and row1.pp_name == row2.pp_name and row1.pp_patronymic == row2.pp_patronymic and row1.jj_name == row2.jj_name%}
-                            <tr >
-                              <th style="font-weight:normal;
-                                  font-size: 14px;text-align : center;">{{ row2.date_f }}</th>
-                              <th style="font-weight:normal;
-                                  font-size: 14px;text-align : center;">{{ row2.time_f }}</th>
-                              <th style="font-weight:normal;
-                                  font-size: 14px;padding: 1px 1px 1px 50px;">{{ row2.readerID }}</th>            
-                            </tr>                   
-                            
-                          {% endif %}        
-                        {% endfor %}      
-                      </tbody>
-                  </table>
-                  </div>
-              {% endif %}
-          {% endfor %}          
-      {% endfor %}  
-  </body>
-</html>
+                        {% for index2, row2 in devices_messages.iterrows %}
+                            {% if row.oo_name == row2.oo_name and row.dd_name == row2.dd_name and row1.pp_sur_name == row2.pp_sur_name and row1.pp_name == row2.pp_name and row1.pp_patronymic == row2.pp_patronymic and row1.jj_name == row2.jj_name%}
+                              <tr >
+                                <th style="font-weight:normal;
+                                    font-size: 14px;text-align : center;">{{ row2.date_f }}</th>
+                                <th style="font-weight:normal;
+                                    font-size: 14px;text-align : center;">{{ row2.time_f }}</th>
+                                <th style="font-weight:normal;
+                                    font-size: 14px;padding: 1px 1px 1px 50px;">{{ row2.readerID }}</th>            
+                              </tr>                   
+                              
+                            {% endif %}        
+                          {% endfor %}      
+                        </tbody>
+                    </table>
+                    </div>
+                {% endif %}
+            {% endfor %}          
+        {% endfor %}  
+    </body>
+  </html>
 {% endblock %}
 
 {% block bootstrap4_after_content %}
