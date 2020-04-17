@@ -27,8 +27,8 @@
     </form>
       <script >
         $(function () {
-          $("#id_date1").datetimepicker();
-          $("#id_date2").datetimepicker();
+          $("#id_date1").datetimepicker({format:'d/m/Y H:i'});
+          $("#id_date2").datetimepicker({format:'d/m/Y H:i'});
         });
       </script> 
 
@@ -73,9 +73,9 @@
                             {% if row.oo_name == row2.oo_name and row.dd_name == row2.dd_name and row1.pp_sur_name == row2.pp_sur_name and row1.pp_name == row2.pp_name and row1.pp_patronymic == row2.pp_patronymic and row1.jj_name == row2.jj_name%}
                               <tr >
                                 <th style="font-weight:normal;
-                                    font-size: 14px;text-align : center;">{{ row2.date_f }}</th>
+                                    font-size: 14px;text-align : center;">{{ row2.date_f|date:"d.m.Y"}}</th>
                                 <th style="font-weight:normal;
-                                    font-size: 14px;text-align : center;">{{ row2.time_f }}</th>
+                                    font-size: 14px;text-align : center;">{{ row2.time_f|time:"H:i"}}</th>
                                 <th style="font-weight:normal;
                                     font-size: 14px;padding: 1px 1px 1px 50px;">{{ row2.readerID }}</th>            
                               </tr>                   

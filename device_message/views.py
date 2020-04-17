@@ -17,11 +17,11 @@ import datetime
 
 import bs4
 from fpdf import FPDF
+from datetime import datetime, date, time
 
 
-def get_sql(form_organization):   
+def get_sql(form_organization,date_time):   
 
-       
     sql = """
     select dmdm.id, pp."sur_name" as pp_sur_name,pp."name" as pp_name ,pp."patronymic" as pp_patronymic,
     jj."name" as jj_name, dd."name" as dd_name,oo."name" as oo_name, oo."id" as oo_id, date_f,time_f, 
@@ -39,12 +39,32 @@ def get_sql(form_organization):
     conn = psycopg2.connect(conn_string) 
     #frame_query принимает результат sql запроса, а вовзращает DataFrame 
     df  = pd.read_sql(sql, conn)
-    df.to_csv('123.csv')      
+    df.to_csv('123.csv')   
+
+   
+    date_1 = date_time["datetime1"].date()  
+    date_2 = date_time["datetime2"].date()
+
+    time_1 = date_time["datetime1"].time()  
+    time_2 = date_time["datetime2"].time()
+
+   
+    #df_ = df[['oo_name','dd_name','pp_sur_name','pp_name','pp_patronymic','jj_name','date_f','time_f','readerID']].copy()
+    
+    df_ = df.groupby(['oo_name','oo_id','dd_name','pp_sur_name','pp_name','pp_patronymic','jj_name','date_f','time_f','readerID']).size().reset_index(name='count').query('(date_f >= @date_1)').copy()
+   
+    print(999999999999999999999999999999999999)
+    print(df_)
+    print(55555555555555555555555555555555555555)
+    print(date_1)
+    print(55555555555555555555555555555555555555)
+    print(999999999999999999999999999999999999)
 
 
-    df1 = df[['oo_name','dd_name','oo_id']].copy()
-    #print("999999999999999999999999999999999999999999999999999")
-    #print(form_organization)
+    #df_1 = df_[['oo_name','dd_name','pp_sur_name','pp_name','pp_patronymic','jj_name','date_f','time_f','readerID']].copy()
+    #print(df_1)
+       
+    df1 = df_[['oo_name','dd_name','oo_id']].copy()
     id_organization = 1
     if int(form_organization) == 2:
         id_organization = 3
@@ -55,16 +75,19 @@ def get_sql(form_organization):
         organizations_departaments = df1.groupby(['oo_name','dd_name','oo_id']).size().reset_index(name='count')
     else:
         organizations_departaments = df1.groupby(['oo_name','dd_name','oo_id']).size().reset_index(name='count').query('oo_id == @id_organization')
+       
     
-    
-    
-    df1 = df[['oo_name','dd_name','pp_sur_name','pp_name','pp_patronymic','jj_name']].copy()
+    df1 = df_[['oo_name','dd_name','pp_sur_name','pp_name','pp_patronymic','jj_name']].copy()
     persons_jobs = df1.groupby(['oo_name','dd_name','pp_sur_name','pp_name','pp_patronymic','jj_name']).size().reset_index(name='count') 
     
-    df1 = df[['oo_name','dd_name','pp_sur_name','pp_name','pp_patronymic','jj_name','date_f','time_f','readerID']].copy()
+    df1 = df_[['oo_name','dd_name','pp_sur_name','pp_name','pp_patronymic','jj_name','date_f','time_f','readerID']].copy()
     devices_messages = df1.groupby(['oo_name','dd_name','pp_sur_name','pp_name','pp_patronymic','jj_name','date_f','time_f','readerID']).size().reset_index(name='count') 
-    
-    now = datetime.datetime.now()
+    print(777777777777777)
+    print(devices_messages)
+
+
+
+    now = datetime.now()
         
     return { "organizations_departaments":organizations_departaments,
              "persons_jobs":persons_jobs,
@@ -75,9 +98,14 @@ def get_sql(form_organization):
             }   
 
 
+def dateTimeF():
+    return {'datetime1':datetime.combine(date.today(),time(0,0)),
+            'datetime2':datetime.combine(date.today(),time(23,0))}
+
+
 def messages(request):    
     
-    return render(request,'device_message.html',get_sql(1))
+    return render(request,'device_message.html',get_sql(1,dateTimeF()))
 
 def table_pdf(data,pdf,spacing=1):   
  
@@ -93,30 +121,34 @@ def table_pdf(data,pdf,spacing=1):
 
 def refreshPage(request):   
     form = DateForm(request.GET)
-    return render(request, "device_message.html", context = get_sql(1))
+    return render(request, "device_message.html",
+    context = get_sql(1,DateTime_1(),DateTime_2()))
+        
 
 def PageBootstrap(request): 
     
     if request.method == "GET":
-        return render(request, "device_message_b.html", context = get_sql(1))
+        return render(request, "device_message_b.html", context = get_sql(1,dateTimeF()))
 
     elif request.method == "POST":
         form  = Organization_Form(request.POST)
         formD = DateForm(request.POST)
         form_organization_=""
+        date1_=datetime.combine(date.today(),time(0,0))
+        date2_=datetime.combine(date.today(),time(23,0))
+
         #import pdb; pdb.set_trace()
         if form.is_valid():
           form_organization_= form.cleaned_data.get("organization_list") 
-          
+        print(formD.is_valid())  
         if formD.is_valid():
           
           date1_= formD.cleaned_data.get("date1") 
           date2_= formD.cleaned_data.get("date2") 
-          print("9999999999999999999999")
-          print(date1_)  
-          print(date2_) 
+          
 
-        return render(request, "device_message_b.html", context = get_sql(form_organization_))
+        return render(request, "device_message_b.html", 
+            context = get_sql(form_organization_,{'datetime1':date1_,'datetime2':date2_}))
     else:
         return HttpResponseNotAllowed()
 
