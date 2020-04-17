@@ -49,21 +49,17 @@ def get_sql(form_organization,date_time):
     time_2 = date_time["datetime2"].time()
 
    
-    #df_ = df[['oo_name','dd_name','pp_sur_name','pp_name','pp_patronymic','jj_name','date_f','time_f','readerID']].copy()
-    
-    df_ = df.groupby(['oo_name','oo_id','dd_name','pp_sur_name','pp_name','pp_patronymic','jj_name','date_f','time_f','readerID']).size().reset_index(name='count').query('(date_f >= @date_1)').copy()
+    df_ = df.groupby(['oo_name','oo_id','dd_name','pp_sur_name','pp_name','pp_patronymic','jj_name','date_f','time_f','readerID']).size().reset_index(name='count').query('(date_f >= @date_1)&(date_f <= @date_2)&(time_f >= @time_1)&(time_f <= @time_2)').copy()
    
     print(999999999999999999999999999999999999)
     print(df_)
     print(55555555555555555555555555555555555555)
-    print(date_1)
+    print(time_1)
     print(55555555555555555555555555555555555555)
     print(999999999999999999999999999999999999)
 
 
-    #df_1 = df_[['oo_name','dd_name','pp_sur_name','pp_name','pp_patronymic','jj_name','date_f','time_f','readerID']].copy()
-    #print(df_1)
-       
+      
     df1 = df_[['oo_name','dd_name','oo_id']].copy()
     id_organization = 1
     if int(form_organization) == 2:
