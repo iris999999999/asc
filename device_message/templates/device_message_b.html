@@ -35,7 +35,7 @@
 
     <form class="form-inline" action="{% url 'device_message:save' %}"   method="get"> 
         <input  class="btn btn-sm align-middle btn-outline-secondary" type="submit" value="pdf" name="save">  
-        <a class="nav-link" href="/refresh_page">"-->"</a>        
+              
       </form> 
     </form> 
   </nav>
@@ -45,17 +45,17 @@
     <body>
       
       <div class="mx-auto" style = "text-align : right;font-size: 12px;"><h10>Система контроля и управления доступом ASC32</h10></div> 
-      <div class="mx-auto" style = "text-align : right;font-size: 12px;"><h10>{{now}}</h10></div> 
+      <div id='date_time_now' class="mx-auto" style = "text-align : right;font-size: 12px;"><h10>{{now}}</h10></div> 
    
       <div class="mx-auto" style="width: 800px;padding: 10px;"><h5><strong>Отчет по контролю времени входа/выхода персонала на предприятии.</strong></h5></div>  
         
         {% for index, row in organizations_departaments.iterrows %}
 
-            <div class="mx-auto" style="width: 700px; color:  #8B658B;text-align : center;margin-top: 20px;"><h6><strong>{{row.oo_name}} {{'_'}} {{row.dd_name}}</strong></h6></div>
+            <div id="organizations_departaments" class="mx-auto" style="width: 700px; color:  #8B658B;text-align : center;margin-top: 20px;"><h6><strong>{{row.oo_name}} {{'_'}} {{row.dd_name}}</strong></h6></div>
             
             {% for index1, row1 in persons_jobs.iterrows  %}
                 {% if row.oo_name == row1.oo_name and row.dd_name == row1.dd_name%}
-                   <div class="mx-auto"  style="width: 450px;margin-top: 20px;"><h9>
+                   <div id="persons_jobs" class="mx-auto"  style="width: 450px;margin-top: 20px;"><h9>
                     {{'----'}} {{row1.pp_sur_name}} {{' '}} {{row1.pp_name}} {{' '}}  {{row1.pp_patronymic}}  {{', '}} {{row1.jj_name}}</h9></div>
                     
                     <div class="col-md-6" style="left: 300px;" >
