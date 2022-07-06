@@ -9,7 +9,7 @@ django-extensions==2.2.8
 djangorestframework==3.11.0
 fpdf==1.7.2
 idna==2.9
-lxml==4.5.0
+lxml==4.9.1
 numpy==1.18.1
 pandas==1.0.1
 pandasql==0.7.3
