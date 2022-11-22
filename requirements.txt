@@ -13,7 +13,7 @@ lxml==4.5.0
 numpy==1.18.1
 pandas==1.0.1
 pandasql==0.7.3
-Pillow==7.0.0
+Pillow==9.3.0
 psycopg2==2.8.4
 python-dateutil==2.8.1
 pytz==2019.3
